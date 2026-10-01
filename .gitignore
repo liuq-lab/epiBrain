@@ -8,3 +8,6 @@ __pycache__/
 *.fam
 *.sscore
 .DS_Store
+
+# keep the gene annotation shipped with the repository
+!refGene_hg19_TSS.bed
