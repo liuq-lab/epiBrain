@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.npy
+*.npz
+*.vcf.gz*
+*.bed
+*.bim
+*.fam
+*.sscore
+.DS_Store

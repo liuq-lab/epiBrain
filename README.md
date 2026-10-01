@@ -1,7 +1,7 @@
-# AD-genomicLLM
+# epiBrain
 Associating genotype to imaging and clinical phenotypes of Alzheimer’s disease by leveraging genomic large language model
 
- ![model](https://github.com/SUwonglab/AD-genomicLLM/blob/main/workflow.png)
+ ![model](https://github.com/liuq-lab/epiBrain/blob/main/workflow.png)
 
 In this work, we propose a novel computational framework that leverages genomic large language models (LLMs) to enhance the association analysis between genetic variants and Alzheimer's disease (AD)-related phenotypes, including imaging and clinical features.
 
@@ -132,6 +132,13 @@ python3 get_AD_association.py --img_feat_type [img_feat_type] --gene_name [gene_
 [refGene_path] -path to the refGene file, e.g., refGene_hg19_TSS.bed
 ```
 The auROC will be calculated for binary AD trait.
+
+## UK Biobank validation
+
+The `ukb/` directory contains the pipeline and figure code for the UK Biobank validation of epiBrainLLM
+(23 AD genes, 13,574 participants; AD, non-AD dementia and MCI cohorts; comparison with the raw-SNP baseline
+and with PRS-CS, LDpred2 and SDPR). See [`ukb/README.md`](ukb/README.md). The figures can be regenerated from the
+aggregate data shipped in `ukb/07_figures/` without access to individual-level data.
 
 # Contact
 If you have any questions regarding our code or data, please do not hesitate to open an issue or directly contact me (liuqiao@stanford.edu).

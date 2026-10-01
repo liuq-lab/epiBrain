@@ -1,0 +1,13 @@
+disease,baseline,gap_x100,ci_lo,ci_hi,p_onesided,sig
+AD,raw SNP,1.66,0.99,2.32,0.0,yes
+AD,PRS-CS,2.17,1.14,3.16,0.0,yes
+AD,LDpred2,0.21,-0.55,1.0,0.2943,no
+AD,SDPR,0.94,0.08,1.83,0.0153,yes
+MCI,raw SNP,1.85,-0.68,4.29,0.0647,no
+MCI,PRS-CS,-0.18,-2.44,2.16,0.5697,no
+MCI,LDpred2,-0.29,-2.26,1.7,0.6183,no
+MCI,SDPR,0.17,-1.97,2.21,0.4443,no
+Dementia,raw SNP,1.17,0.15,2.24,0.0143,yes
+Dementia,PRS-CS,1.67,0.4,2.93,0.004,yes
+Dementia,LDpred2,1.38,0.3,2.5,0.006,yes
+Dementia,SDPR,1.21,0.05,2.34,0.0207,yes
