@@ -1,11 +1,20 @@
+"""Associate one gene with AD status (ADNI).
+
+For the 246 ADNI participants with WGS and the 1-year MRI collection, participants ever diagnosed with MCI or
+dementia in ADNIMERGE are cases and the others controls. The genomic-LLM features of the central Enformer region
+are restricted to the 77 AD-related tracks (AD_contexts.txt), reduced by local PCA per bin and averaged over the
+two haplotypes; a gradient-boosting classifier is evaluated by 10-fold cross-validated auROC. Run from the repository root.
+
+Input : --llm_path  folder with <chrom>_<subject>_{paternal,maternal}.npy from get_llm_feats.py
+Output: the auROC, printed to stdout
+
+Usage:
+    python3 get_AD_association.py --gene_name APOE --llm_path llm_feats/APOE --refGene_path refGene_hg19_TSS.bed
+"""
 import pandas as pd
 import numpy as np 
-import sys,os
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn import metrics
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import KFold
-import seaborn as sns
 import argparse
 
 def get_subjects_info(merge_info_path='ADNIMERGE_01Jun2023.csv', mri_file='MRI/ADNI1_Complete_1Yr_1.5T_7_18_2023.csv', wgs_file='wgs_subject_id.txt'):
@@ -117,7 +126,7 @@ def evaluate_predition(X, y, gene_name = 'APOE', chrom = 'chr19'):
     return roc_auc
 
 if __name__=="__main__":
-    parser = argparse.ArgumentParser(description="Assocaite gene to AD risk")
+    parser = argparse.ArgumentParser(description="Associate gene to AD risk")
     parser.add_argument('--gene_name', type=str, required=True, help='Name of the gene.')
     parser.add_argument('--llm_path', type=str, required=True, help='Path to Enformer feature files.')
     parser.add_argument('--refGene_path', type=str, required=True, help='Path to the refGene hg19 TSS bed file.')
@@ -138,8 +147,7 @@ if __name__=="__main__":
     gene2loc = {item.split('\t')[4]: (item.split('\t')[0], int(item.split('\t')[1])) for item in open(args.refGene_path).readlines()}
     chrom, center = gene2loc[gene_name]
 
-    enformer_feats_p, enformer_feats_m = get_enformer_feats(sujects_selected, gene_name = gene_name, chrom = chrom)
+    enformer_feats_p, enformer_feats_m = get_enformer_feats(sujects_selected, llm_path = args.llm_path, chrom = chrom)
     pca_feats = reduce_enformer_feats(enformer_feats_p,enformer_feats_m)
     roc_auc = evaluate_predition(pca_feats, y, gene_name = gene_name, chrom = chrom)
     print(f'The auROC for gene {args.gene_name} is {roc_auc:.3f}')
-

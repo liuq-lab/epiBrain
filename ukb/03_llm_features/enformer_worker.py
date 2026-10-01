@@ -22,7 +22,7 @@ REF=f'{PROJ}/ukb/data/ref/{CHR}.fa'
 PHASED=os.environ['PHASED_VCF']
 VCF2DIP=f'{PROJ}/ukb/data/tools/vcf2diploid/vcf2diploid.jar'
 JAVA=_os.environ.get('JAVA','java')
-REFGENE=f'{PROJ}/AD-genomicLLM/refGene_hg19_TSS.bed'
+REFGENE=f'{PROJ}/refGene_hg19_TSS.bed'
 TMPROOT=f'{PROJ}/z_work/tmp'
 shard=sys.argv[1]; OUTDIR=sys.argv[2]; os.makedirs(OUTDIR, exist_ok=True)
 model=tf.saved_model.load(f'{PROJ}/z_work/tf_enformer').model

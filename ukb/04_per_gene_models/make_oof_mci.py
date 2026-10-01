@@ -25,7 +25,7 @@ G=UKB_BFILE_DIR; PLINK=PLINK2
 ad=pd.read_csv('ukb/phenotypes/ad_labels.tsv',sep='\t',usecols=['eid','ad_strict','ad_alldem','ad_mci'])
 ad['eid']=ad['eid'].astype(str); ad=ad.set_index('eid')
 g2l={}
-for l in open('AD-genomicLLM/refGene_hg19_TSS.bed'):
+for l in open('refGene_hg19_TSS.bed'):
     p=l.split('\t'); g2l[p[4]]=(p[0].replace('chr',''),int(p[1]))
 cfg=pd.read_csv(f'{ROOT}/comparison_results/all_genes_maxtune_ALL.tsv',sep='\t')
 cfg=cfg[cfg.disease=='MCI'].set_index('gene')

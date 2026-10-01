@@ -7,7 +7,7 @@ import os,sys,glob,gc,numpy as np
 from sklearn.decomposition import PCA
 GENE=sys.argv[1]; CHR=sys.argv[2]
 TFDIR=f'z_work/tf_feats_{GENE}'; OUT=f'z_work/pca_feats/{GENE}'; os.makedirs(OUT,exist_ok=True)
-ad77=np.array([int(l.split('\t')[0]) for l in open('AD-genomicLLM/AD_contexts.txt')])
+ad77=np.array([int(l.split('\t')[0]) for l in open('AD_contexts.txt')])
 subj=sorted([os.path.basename(x).split('_')[1] for x in glob.glob(f'{TFDIR}/{CHR}_*_maternal.npy')
              if os.path.exists(x.replace('_maternal','_paternal'))], key=int)
 open(f'{OUT}/subjects.txt','w').write('\n'.join(subj)+'\n')

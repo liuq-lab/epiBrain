@@ -32,7 +32,7 @@ WIN_HALF=${5:-320000}   # half-window in bp around TSS to keep (>= Enformer 1966
 
 PROJ=${EPIBRAIN_ROOT}
 GENO_DIR=${UKB_BFILE_DIR}
-REPO=$PROJ/AD-genomicLLM
+REPO=$PROJ
 REF=$PROJ/ukb/data/ref/chr${CHR}.fa
 BEAGLE=$REPO/preprocess/beagle.22Jul22.46e.jar
 MAP=$PROJ/ukb/data/genetic_maps/plink.chr${CHR}.GRCh37.map

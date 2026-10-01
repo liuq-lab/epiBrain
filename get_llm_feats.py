@@ -1,3 +1,15 @@
+"""Extract genomic-LLM (Enformer) features for one gene from one personal haploid genome.
+
+Input : a personal fasta produced by vcf2diploid, e.g. fasta/chr19/chr19_003_S_1057_maternal.fa
+        (one sequence named "<chr>_maternal" or "<chr>_paternal").
+Output: <output_path>/<fasta basename>.npy, shape (3, 896, 5313)
+        = 3 Enformer input regions centred at TSS - 114,688 bp, TSS and TSS + 114,688 bp
+        x 896 bins of 128 bp x 5,313 human tracks.
+
+Usage:
+    python3 get_llm_feats.py --gene_name APOE --fasta_path fasta/chr19/chr19_003_S_1057_maternal.fa \
+        --refGene_path refGene_hg19_TSS.bed --output_path llm_feats/APOE
+"""
 import tensorflow_hub as hub
 import tensorflow as tf
 import numpy as np
@@ -6,7 +18,7 @@ import math
 from pyfasta import Fasta
 import argparse
 
-# Load the Enformer model
+# Load the Enformer model (TF-Hub, downloaded on first use)
 enformer_model = hub.load("https://tfhub.dev/deepmind/enformer/1").model
 
 def seq_to_mat(seq):
@@ -19,6 +31,8 @@ def seq_to_mat(seq):
     return mat
 
 def main(args):
+    """Run Enformer on the regions around the TSS of args.gene_name and save the stacked outputs."""
+    # refGene_hg19_TSS.bed columns: chrom, TSS, TSS, transcript ID, gene name, strand
     gene2loc = {item.split('\t')[4]: (item.split('\t')[0], int(item.split('\t')[1])) for item in open(args.refGene_path).readlines()}
 
     assert args.gene_name in gene2loc, "Gene not found in refGene database"
@@ -27,9 +41,9 @@ def main(args):
     start = center - 100000
     end = center + 100000
 
-    SEQ_LENGTH = 393216
-    interval = 896 * 128
-    nb_regions = math.ceil((end - start - interval) / (2 * interval))
+    SEQ_LENGTH = 393216              # Enformer input length (bp)
+    interval = 896 * 128             # length covered by the 896 output bins (bp)
+    nb_regions = math.ceil((end - start - interval) / (2 * interval))   # = 1 -> 3 regions in total
 
     os.makedirs(args.output_path, exist_ok=True)
     output_file = os.path.join(args.output_path, f"{args.fasta_path.split('/')[-1].split('.')[0]}.npy")
